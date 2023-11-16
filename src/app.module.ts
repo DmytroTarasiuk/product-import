@@ -6,10 +6,7 @@ import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
-    //MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING),
-    MongooseModule.forRoot(
-      'mongodb+srv://rdgroupsp:jqRVC1miN0EJhx8Z@cluster0.pkzgrkv.mongodb.net/products-import3',
-    ),
+    MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING),
     MulterModule.register(),
     ScheduleModule.forRoot(),
     ProductsModule,

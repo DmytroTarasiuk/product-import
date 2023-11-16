@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
-//import { nanoid } from 'nanoid';
+import { uuid } from 'uuidv4';
 import { Product, ProductDocument } from './schemas/product.schema';
 import * as csvtojson from 'csvtojson';
 
@@ -29,9 +29,9 @@ export class ProductsService {
           )}`,
         );
 
-        const productsToSave = batch.map((item, index) => {
+        const productsToSave = batch.map((item) => {
           return {
-            docId: `test-${i + index}`,
+            docId: uuid(),
             description: item.ItemDescription,
           };
         });
