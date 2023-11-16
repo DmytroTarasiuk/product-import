@@ -32,7 +32,42 @@ export class ProductsService {
         const productsToSave = batch.map((item) => {
           return {
             docId: uuid(),
-            description: item.ItemDescription,
+            data: {
+              description: item.ProductDescription,
+              name: item.ProductName,
+              vendorId: item.ItemID,
+              manufacturerId: item.ManufacturerID,
+              variants: [
+                {
+                  description: item.ItemDescription,
+                  packaging: item.PKG,
+                },
+              ],
+              options: [
+                {
+                  id: uuid(),
+                  name: 'packaging',
+                  values: [
+                    {
+                      id: uuid(),
+                      name: item.PKG,
+                      value: item.PKG,
+                    },
+                  ],
+                },
+                {
+                  id: uuid(),
+                  name: 'description',
+                  values: [
+                    {
+                      id: uuid(),
+                      name: item.ItemDescription,
+                      value: item.ItemDescription,
+                    },
+                  ],
+                },
+              ],
+            },
           };
         });
 
@@ -59,10 +94,13 @@ export class ProductsService {
     const products = await this.productModel.find().limit(10);
 
     for (const product of products) {
-      const enhancedDescription = await this.callGpt4(product.description);
+      const enhancedDescription = await this.callGpt4(product.data.description);
 
       await this.productModel.findByIdAndUpdate(product._id, {
-        description: enhancedDescription,
+        data: {
+          ...product.data,
+          description: enhancedDescription,
+        },
       });
     }
   }
