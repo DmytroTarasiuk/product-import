@@ -5,6 +5,13 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { uuid } from 'uuidv4';
 import { Product, ProductDocument } from './schemas/product.schema';
 import * as csvtojson from 'csvtojson';
+import OpenAI from 'openai';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const openai = new OpenAI({
+  apiKey: process.env.OPEN_AI_API_KEY,
+});
 
 @Injectable()
 export class ProductsService {
@@ -94,7 +101,7 @@ export class ProductsService {
     const products = await this.productModel.find().limit(10);
 
     for (const product of products) {
-      const enhancedDescription = await this.callGpt4(product.data.description);
+      const enhancedDescription = await this.callGpt4(product.data.name);
 
       await this.productModel.findByIdAndUpdate(product._id, {
         data: {
@@ -105,9 +112,18 @@ export class ProductsService {
     }
   }
 
-  private async callGpt4(description: string): Promise<string> {
-    // Implement the logic to call GPT-4
-    return `Enhanced: ${description}`;
+  private async callGpt4(name: string): Promise<string> {
+    const completion = await openai.chat.completions.create({
+      messages: [
+        {
+          role: 'user',
+          content: `Please compose a description for this product ${name}`,
+        },
+      ],
+      model: 'gpt-3.5-turbo',
+    });
+
+    return `${completion.choices[0].message.content}`;
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_10AM)

@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express/multer';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ProductsModule } from './products/products.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
