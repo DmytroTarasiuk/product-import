@@ -94,7 +94,6 @@ export class ProductsService {
     } catch (error) {
       this.logger.error(`Error during batch processing: ${error.message}`);
     }
-    await this.enhanceDescriptions();
   }
 
   private async enhanceDescriptions(): Promise<void> {

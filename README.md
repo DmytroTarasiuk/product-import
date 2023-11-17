@@ -67,7 +67,7 @@ Example using cURL:
 curl -X POST \
   http://localhost:3000/products/import \
   -H 'Content-Type: multipart/form-data' \
-  -F 'csvFile=@path/to/your/file.csv' \
+  -F 'file=@path/to/your/file.csv' \
   -F 'deleteFlag=false'
 
 You can use a csv file from `./files/images40(1).csv` for testing purposes.
