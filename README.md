@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# product-import
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Before running this application, make sure you have the following software installed on your computer:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Node.js: You can download it from [nodejs.org](https://nodejs.org/)
+- Nest CLI - You can install it globally using npm: `npm i -g @nestjs/cli`
 
-## Description
+## Getting Started
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Follow these steps to run the app locally:
 
-## Installation
+1. **Clone the repository**:
+`git clone https://github.com/DmytroTarasiuk/product-import.git`
 
-```bash
-$ npm install
+2. **Navigate to the project directory**:
+`cd product-import`
+
+3. **Install Dependencies**:
+`npm install`
+
+4. **Start the Development Server**:
+`npm start`
+
+## How to use
+
+To run this application, ensure you have the necessary credentials for both **MongoDB** and **OpenAI**.
+
+### MongoDB Connection String
+
+1. Generate a MongoDB connection string in the following format:
+
+   ```plaintext
+   mongodb+srv://<username>:<password>@cluster0.pkzgrkv.mongodb.net/<database-name>
+
+Replace <username>, <password>, and <database-name> with your MongoDB credentials.
+
+### OpenAI API Key
+
+1. Obtain your **OpenAI** API key from [OpenAI Platform](https://platform.openai.com/api-keys).
+
+### Environment Configuration
+
+1. Create a file named `.env` in the root directory of the project.
+
+2. Set the following environment variables in the `.env` file:
+
+```env
+MONGODB_CONNECTION_STRING=<your-mongodb-connection-string>
+OPEN_AI_API_KEY=<your-openai-api-key>;
 ```
 
-## Running the app
+### Importing CSV Data
 
-```bash
-# development
-$ npm run start
+1. Start the server by running the command:
 
-# watch mode
-$ npm run start:dev
+   ```bash
+   npm start
 
-# production mode
-$ npm run start:prod
-```
+Wait until you see the log message: `Nest application successfully started +10ms.`
 
-## Test
+2. With the server running, make a POST request to `http://localhost:3000/products/import` to initiate the data import.
 
-```bash
-# unit tests
-$ npm run test
+Include a CSV file in the request body for data import.
+Optionally, include a deleteFlag (boolean) in the request body to control deletion behavior.
+Example using cURL:
 
-# e2e tests
-$ npm run test:e2e
+curl -X POST \
+  http://localhost:3000/products/import \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'csvFile=@path/to/your/file.csv' \
+  -F 'deleteFlag=false'
 
-# test coverage
-$ npm run test:cov
-```
+You can use a csv file from `./files/images(1).csv` for testing purposes.
 
-## Support
+After initiating the data import, it's crucial to monitor the server logs for progress and any potential errors. Follow these steps:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+3. Keep an eye on the terminal where the server is running. Look for log messages related to the data import process:
 
-## Stay in touch
+   ```bash
+   Nest application successfully started +10ms
+   [Nest] ... Importing data from CSV file ...
+   [Nest] ... Data import completed successfully ...
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+An example of sending POST import request:
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+![My Image](files/request.png)
