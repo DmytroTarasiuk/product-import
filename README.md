@@ -32,7 +32,7 @@ To run this application, ensure you have the necessary credentials for both **Mo
    ```plaintext
    mongodb+srv://<username>:<password>@cluster0.pkzgrkv.mongodb.net/<database-name>
 
-Replace <username>, <password>, and <database-name> with your MongoDB credentials.
+Replace `<username>`, `<password>`, and `<database-name>` with your MongoDB credentials.
 
 ### OpenAI API Key
 
@@ -70,7 +70,7 @@ curl -X POST \
   -F 'csvFile=@path/to/your/file.csv' \
   -F 'deleteFlag=false'
 
-You can use a csv file from `./files/images(1).csv` for testing purposes.
+You can use a csv file from `./files/images40(1).csv` for testing purposes.
 
 After initiating the data import, it's crucial to monitor the server logs for progress and any potential errors. Follow these steps:
 
